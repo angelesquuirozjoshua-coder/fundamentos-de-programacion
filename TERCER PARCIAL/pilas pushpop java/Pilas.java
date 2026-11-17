@@ -1,0 +1,103 @@
+import java.util.Scanner;
+
+public class Pilas {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int max = 5;
+        String[] pila = new String[max];
+        int tope = -1;
+        
+        int opcion = 0;
+
+        while (opcion != 5) {
+            System.out.println("\n==================================");
+            System.out.println("    SISTEMA DE PILAS (LIFO)");
+            System.out.println("==================================");
+            System.out.println("1. Empujar dato (PUSH)");
+            System.out.println("2. Sacar dato de uno en uno (POP)");
+            System.out.println("3. Mostrar estado de la pila");
+            System.out.println("4. Sacar varios elementos (N elementos)");
+            System.out.println("5. Salir");
+            System.out.print("Elige una opción: ");
+            
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingresa el elemento a guardar: ");
+                    String nuevoDato = scanner.nextLine();
+
+                    if (tope >= max - 1) {
+                        System.out.println("¡ERROR! Desbordamiento. La pila está llena.");
+                    } else {
+                        tope++;
+                        pila[tope] = nuevoDato;
+                        System.out.println("¡Éxito! Se agregó '" + nuevoDato + "'. TOPE actual: " + tope);
+                    }
+                    break;
+
+                case 2:
+                    if (tope < 0) {
+                        System.out.println("¡ERROR! Subdesbordamiento. La pila está vacía.");
+                    } else {
+                        System.out.println("Salió el elemento: " + pila[tope]);
+                        pila[tope] = null;
+                        tope--;
+                        System.out.println("Nuevo TOPE: " + tope);
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("\n--- ESTADO ACTUAL DE LA PILA ---");
+                    
+                    if (tope < 0) {
+                        System.out.println("[ Pila vacía ]");
+                    } else {
+                        for (int i = tope; i >= 0; i--) {
+                            System.out.println("Posición " + i + " -> " + pila[i]);
+                        }
+                        System.out.println("-> El TOPE está en la posición: " + tope);
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("\n--- VACIAR PILA ---");
+                    int elementosActuales = tope + 1;
+                    
+                    if (tope < 0) {
+                        System.out.println("La pila está vacía, no hay nada que sacar.");
+                    } else {
+                        System.out.print("¿Cuántos elementos deseas sacar? (Hay " + elementosActuales + " disponibles): ");
+                        int aSacar = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (aSacar <= 0) {
+                            System.out.println("Número no válido.");
+                        } else if (aSacar > elementosActuales) {
+                            System.out.println("No puedes sacar tantos. Solo hay " + elementosActuales + " elementos en la pila.");
+                        } else {
+                            for (int k = 0; k < aSacar; k++) {
+                                System.out.println("Salió: " + pila[tope] + " (Posición " + tope + ")");
+                                pila[tope] = null;
+                                tope--;
+                            }
+                            System.out.println("Se extrajeron " + aSacar + " elementos correctamente.");
+                        }
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Saliendo del programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida. Elige un número del 1 al 5.");
+                    break;
+            }
+        }
+        
+        scanner.close();
+    }
+}
